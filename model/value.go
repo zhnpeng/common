@@ -241,8 +241,8 @@ type Value interface {
 
 func (Matrix) Type() ValueType  { return ValMatrix }
 func (Vector) Type() ValueType  { return ValVector }
-func (*Scalar) Type() ValueType { return ValScalar }
-func (*String) Type() ValueType { return ValString }
+func (Scalar) Type() ValueType { return ValScalar }
+func (String) Type() ValueType { return ValString }
 
 type ValueType int
 
@@ -314,7 +314,7 @@ func (s Scalar) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (s *Scalar) UnmarshalJSON(b []byte) error {
+func (s Scalar) UnmarshalJSON(b []byte) error {
 	var f string
 	v := [...]interface{}{&s.Timestamp, &f}
 
@@ -336,7 +336,7 @@ type String struct {
 	Timestamp Time   `json:"timestamp"`
 }
 
-func (s *String) String() string {
+func (s String) String() string {
 	return s.Value
 }
 
@@ -346,7 +346,7 @@ func (s String) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (s *String) UnmarshalJSON(b []byte) error {
+func (s String) UnmarshalJSON(b []byte) error {
 	v := [...]interface{}{&s.Timestamp, &s.Value}
 	return json.Unmarshal(b, &v)
 }
